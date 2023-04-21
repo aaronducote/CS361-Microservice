@@ -5,7 +5,7 @@
 # to see images of and how many images they would like to see, and the program reads that input.
 
 """Three Quality Attributes: Accuracy, Usability, Evolvability"""
-
+"dog"
 
 def image_requester():
     name = input("Hello and welcome to Aaron's Image Searcher! What is your name? ")
