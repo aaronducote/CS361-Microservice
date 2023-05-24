@@ -5,16 +5,19 @@ This is the repository used for code that runs the microservice for my partner's
 # Communication Contract
 How do you request data from the microservice?
 
-You can request data from the microservice by running the python file MSsend.py; the file will ask the user for their
-employment information and send that data to the MSreceive.py file.
+You can request data from the microservice by starting a queue through rabbitMQ, which opens up messaging through
+two python files. RabbitMQ starts a communication pipe that runs through the individual project and the microservice
+and sends user data (in this project's case, user employment data) as a list through the communication pipe.
 
 How do you receive data from the microservice?
 
-You can receive data from the microservice by running the MSreceive.py file. The file will receive the user's input
-as messages through the microservice and store those messages into a list. When the user has inputted all of their 
-information, the answers the user gave will be displayed in a list by Python.
+You can receive data from the microservice in the same way that it is sent; when the communication pipeline is 
+established by rabbitMQ, the messages that are sent through rabbitMQ are received by an individual project and
+the data is used for the purposes of the project (in this case, a web-app that takes user employment data and 
+stores it in a database). 
 
 
 # UML Sequence Diagram
 
-![UMLDiagram](https://user-images.githubusercontent.com/108024311/236913572-d48c390a-0861-4a83-816c-b4dcec83decf.PNG)
+![UMLSequenceDiagram](https://github.com/aaronducote/CS361-Microservice/assets/108024311/b56c5dc2-7406-4457-be97-002a3ad0dd46)
+
