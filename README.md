@@ -19,5 +19,6 @@ stores it in a database).
 
 # UML Sequence Diagram
 
-![UMLSequenceDiagram](https://github.com/aaronducote/CS361-Microservice/assets/108024311/b56c5dc2-7406-4457-be97-002a3ad0dd46)
+![UMLSequenceDiagram](https://github.com/aaronducote/CS361-Microservice/assets/108024311/687a0a5e-16e7-4db2-a436-bbb74cb45292)
+
 
