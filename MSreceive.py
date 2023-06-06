@@ -6,7 +6,7 @@
 import pika
 import sys
 import os
-
+import json
 
 def receiveInfo():
     connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
@@ -47,6 +47,8 @@ def print_info(salary_info):
     salary_info = salary_info.decode('utf8', 'strict')      # Decode from bytes to a string
     salary_info = salary_info.rstrip(salary_info[-1])       # Take off 1st and last characters
     salary_info = salary_info[1:]
+    salary_info = salary_info.replace("'", "\"")
+    salary_info = json.loads(salary_info)
     print('Salary Information: ', salary_info)      # Show salary information
 
 
