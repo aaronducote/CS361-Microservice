@@ -1,67 +1,61 @@
 # Name: Aaron Ducote
 # Class: CS 361
 # Filename: MSsend.py
-# Description: Implements the sending part of the microservice.
+# Description: Implements the sending part of the microservice. Receives data request, fulfills it, and sends data back
 
 import pika
+import sys
+import os
+import json
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
-channel = connection.channel()
+information = []
+f = open('salary.json')     # Open json file to parse
 
-channel.queue_declare(queue='hello')
+data = json.load(f)
 
-# company, job title/role, years of experience, base salary, stock, bonus, and location
+for i in data['salary_info']:
+    information.append(i)       # Add json data to list
 
-company = input("What company do you work for? ")
 
-job = input("What is your job title? ")
+# Closing file
+f.close()
 
-exp = input("How many years of experience do you have? ")
 
-salary = input("What is your base salary? ")
+def main():
+    connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
+    channel = connection.channel()
 
-stock = input("What stock options do you receive? ")
+    channel.queue_declare(queue='salaryPipeline')
 
-bonus = input("What bonus do you receive? Enter 0 if none. ")
+    def callback(ch, method, properties, body):
+        print(" [x] Received %r" % body)        # Receive data request
+        connection.close()
+        sendback()
 
-location = input("What is your company's location? ")
+    channel.basic_consume(queue='salaryPipeline', on_message_callback=callback, auto_ack=True)
 
-message = 'A message from CS361'
+    channel.start_consuming()
 
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body=company)
 
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body=job)
+def sendback():
+    connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
+    channel = connection.channel()
+    channel.queue_declare(queue='salaryPipeline')
 
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body=exp)
+    channel.basic_publish(exchange='',
+                          routing_key='salaryPipeline',
+                          body=str(information))        # Send the salary information
 
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body=salary)
+    print("Sent " + str(information))
+    connection.close()
 
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body=stock)
 
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body=bonus)
-
-channel.basic_publish(exchange='',
-                      routing_key='hello',
-                      body=location)
-
-print("Sent Company = " + company)
-print("Sent Job Title = " + job)
-print("Sent Experience = " + exp)
-print("Sent Base Salary = " + salary)
-print("Sent Stock Options = " + stock)
-print("Sent Bonus = " + bonus)
-print("Sent Location = " + location)
-
-connection.close()
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Interrupted')
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)

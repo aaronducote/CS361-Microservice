@@ -1,0 +1,13 @@
+{
+  "salary_info": [
+    {
+      "Company": "Google",
+      "jobTitle": "Software Developer",
+      "experience": 5,
+      "salary": "80,000",
+      "stockOptions": "Roth IRA",
+      "bonus": 0,
+      "location": "Corvallis"
+    }
+  ]
+}
