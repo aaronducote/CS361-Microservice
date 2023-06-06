@@ -49,7 +49,9 @@ def print_info(salary_info):
     salary_info = salary_info[1:]
     salary_info = salary_info.replace("'", "\"")
     salary_info = json.loads(salary_info)
+    salary_info_list = list(salary_info.values())
     print('Salary Information: ', salary_info)      # Show salary information
+    print('Salary Info List', salary_info_list)
 
 
 if __name__ == '__main__':
